@@ -1,5 +1,5 @@
-import { User } from 'src/modules/users/entities/user.entity';
 import { RechargedWalletDto } from '../dtos/recharged-wallet.dto';
+import { WalletBalanceResDto } from '../dtos/wallet-balance-res.dto';
 
 export class WalletMapper {
   static toRegisteredDto(
@@ -10,6 +10,13 @@ export class WalletMapper {
 
     dto.newBalance = balance;
     dto.documentOwner = document;
+
+    return dto;
+  }
+
+  static toWalletBalanceResDto(balance: number): WalletBalanceResDto {
+    const dto = new WalletBalanceResDto();
+    dto.currentBalance = balance;
 
     return dto;
   }
