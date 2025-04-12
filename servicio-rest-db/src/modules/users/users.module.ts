@@ -10,15 +10,23 @@ import { INJECTION_TOKENS } from './constants/injection-tokens.constant';
   controllers: [UsersController],
   providers: [
     {
-      provide: INJECTION_TOKENS.USER_SERVICE,
+      provide: INJECTION_TOKENS.USERS_SERVICE,
       useClass: UsersService,
     },
     {
-      provide: INJECTION_TOKENS.USER_REPOSITORY,
+      provide: INJECTION_TOKENS.USERS_REPOSITORY,
       useClass: UsersRepository,
     },
   ],
   imports: [
+    MongooseModule.forFeature([
+      {
+        name: User.name,
+        schema: UserSchema,
+      },
+    ]),
+  ],
+  exports: [
     MongooseModule.forFeature([
       {
         name: User.name,

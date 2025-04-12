@@ -10,7 +10,7 @@ import { RegisteredCustomerDto } from '../dtos/registered-customer.dto';
 @Injectable()
 export class UsersService implements IUsersService {
   constructor(
-    @Inject(INJECTION_TOKENS.USER_REPOSITORY)
+    @Inject(INJECTION_TOKENS.USERS_REPOSITORY)
     private readonly usersRepository: IUsersRepository,
   ) {}
 

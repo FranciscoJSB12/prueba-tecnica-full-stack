@@ -15,7 +15,7 @@ import { ApiResponse } from 'src/core/responses/api-response.dto';
 @Controller()
 export class UsersController {
   constructor(
-    @Inject(INJECTION_TOKENS.USER_SERVICE)
+    @Inject(INJECTION_TOKENS.USERS_SERVICE)
     private readonly usersService: IUsersService,
   ) {}
 
@@ -30,7 +30,7 @@ export class UsersController {
         'User registered successfully',
       );
     } catch (err) {
-      if (err.errorResponse.code === 11000) {
+      if (err.errorResponse?.code === 11000) {
         throw new ConflictException(
           ApiResponse.error(`Error: Duplicated Element`),
         );

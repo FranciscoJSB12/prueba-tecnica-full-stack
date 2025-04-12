@@ -13,7 +13,7 @@ export class UsersRepository implements IUsersRepository {
   ) {}
 
   async createUser(user: RegisterCustomerDto): Promise<User> {
-    const userEntity = new this.userModel(user);
+    const userEntity = new this.userModel({ ...user, wallet: {} });
 
     return userEntity.save();
   }

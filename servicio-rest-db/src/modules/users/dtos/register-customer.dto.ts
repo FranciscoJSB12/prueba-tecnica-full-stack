@@ -1,4 +1,4 @@
-import { IsString, MinLength } from 'class-validator';
+import { IsEmail, IsString, MinLength } from 'class-validator';
 
 export class RegisterCustomerDto {
   @IsString()
@@ -15,5 +15,9 @@ export class RegisterCustomerDto {
 
   @IsString()
   @MinLength(1)
-  readonly cellphoneNumber: string;
+  readonly cellphone: string;
+
+  @IsString()
+  @IsEmail()
+  readonly email: string;
 }
