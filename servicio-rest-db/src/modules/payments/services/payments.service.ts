@@ -80,6 +80,10 @@ export class PaymentsService implements IPaymentsService {
           throw new BadRequestException('Esta orden ya ha sido confirmada');
         }
 
+        if (order.token !== confirmOrderReqDto.confirmationToken) {
+          throw new BadRequestException('Token incorrecto');
+        }
+
         if (new Date() > order.tokenExpirationDate) {
           throw new ForbiddenException('Token expirado');
         }
