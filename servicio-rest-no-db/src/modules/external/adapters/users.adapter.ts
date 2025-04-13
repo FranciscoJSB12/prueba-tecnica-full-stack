@@ -6,7 +6,7 @@ import { envConfig } from 'src/config/env-config';
 import { ApiResponse } from 'src/core/responses/api-response.dto';
 import { RegisterCustomerDto } from 'src/shared/dtos/users/register-customer.dto';
 import { RegisteredCustomerDto } from 'src/shared/dtos/users/registered-customer.dto';
-import { UserRes } from 'src/shared/types/users/users-res.type';
+import { UserExtRes } from 'src/shared/types/users/users-ext-res.type';
 import { IUsersAdapter } from '../interfaces/users-adapter.interface';
 
 @Injectable()
@@ -17,7 +17,9 @@ export class UsersAdapter implements IUsersAdapter {
     this.baseUrl = envConfig.restServiceDBBaseUrl();
   }
 
-  registerCustomer(registerCustomerDto: RegisterCustomerDto): Promise<UserRes> {
+  registerCustomer(
+    registerCustomerDto: RegisterCustomerDto,
+  ): Promise<UserExtRes> {
     return firstValueFrom(
       this.httpService
         .post<ApiResponse<RegisteredCustomerDto>>(

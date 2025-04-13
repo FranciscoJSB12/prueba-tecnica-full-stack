@@ -6,12 +6,10 @@ import {
   InternalServerErrorException,
   Post,
 } from '@nestjs/common';
-import { UsersService } from '../services/users.service';
-import { INJECTION_TOKENS } from 'src/common/constants/injection-tokens.constants';
 import { IUsersService } from '../interfaces/users-service.interface';
 import { RegisterCustomerDto } from 'src/shared/dtos/users/register-customer.dto';
-import { RegisteredCustomerDto } from 'src/shared/dtos/users/registered-customer.dto';
 import { ApiResponse } from 'src/core/responses/api-response.dto';
+import { INJECTION_TOKENS } from 'src/common/constants/injection-tokens.constants';
 
 @Controller()
 export class UsersController {
