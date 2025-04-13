@@ -3,8 +3,7 @@ import { UserMapper } from '../mappers/user.mapper';
 import { RegisterCustomerDto } from '../dtos/register-customer.dto';
 import { IUsersService } from '../interfaces/users-service.interface';
 import { IUsersRepository } from '../interfaces/users-repository.interface';
-import { INJECTION_TOKENS } from '../constants/injection-tokens.constant';
-import { User } from '../entities/user.entity';
+import { INJECTION_TOKENS } from 'src/common/constants/injection-tokens.constant';
 import { RegisteredCustomerDto } from '../dtos/registered-customer.dto';
 
 @Injectable()
@@ -17,7 +16,7 @@ export class UsersService implements IUsersService {
   async registerCustomer(
     registerCustomerDto: RegisterCustomerDto,
   ): Promise<RegisteredCustomerDto> {
-    const userModel: User =
+    const userModel =
       await this.usersRepository.createUser(registerCustomerDto);
 
     const userDto = UserMapper.toRegisteredDto(userModel);

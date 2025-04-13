@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { WalletsService } from './services/wallets.service';
 import { WalletsController } from './controllers/wallets.controller';
-import { INJECTION_TOKENS } from './constants/injection-tokens.contant';
+import { INJECTION_TOKENS } from 'src/common/constants/injection-tokens.constant';
 import { UsersModule } from '../users/users.module';
 import { WalletsRepository } from './repositories/wallets.repository';
 

@@ -7,7 +7,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { RegisterCustomerDto } from '../dtos/register-customer.dto';
-import { INJECTION_TOKENS } from '../constants/injection-tokens.constant';
+import { INJECTION_TOKENS } from 'src/common/constants/injection-tokens.constant';
 import { IUsersService } from '../interfaces/users-service.interface';
 import { RegisteredCustomerDto } from '../dtos/registered-customer.dto';
 import { ApiResponse } from 'src/core/responses/api-response.dto';

@@ -9,7 +9,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { IWalletsService } from '../interfaces/wallets-service.interface';
-import { INJECTION_TOKENS } from '../constants/injection-tokens.contant';
+import { INJECTION_TOKENS } from 'src/common/constants/injection-tokens.constant';
 import { RechargeWalletDto } from '../dtos/recharge-wallet.dto';
 import { ApiResponse } from 'src/core/responses/api-response.dto';
 import { RechargedWalletDto } from '../dtos/recharged-wallet.dto';

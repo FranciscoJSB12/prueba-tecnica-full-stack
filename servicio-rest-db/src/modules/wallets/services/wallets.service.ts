@@ -3,7 +3,7 @@ import { IWalletsService } from '../interfaces/wallets-service.interface';
 import { IWalletsRepository } from '../interfaces/wallets-repository.interface';
 import { RechargeWalletDto } from '../dtos/recharge-wallet.dto';
 import { RechargedWalletDto } from '../dtos/recharged-wallet.dto';
-import { INJECTION_TOKENS } from '../constants/injection-tokens.contant';
+import { INJECTION_TOKENS } from 'src/common/constants/injection-tokens.constant';
 import { WalletBalanceReqDto } from '../dtos/wallet-balance-req.dto';
 import { WalletMapper } from '../mappers/wallet.mapper';
 import { WalletBalanceResDto } from '../dtos/wallet-balance-res.dto';
@@ -18,12 +18,12 @@ export class WalletsService implements IWalletsService {
   async rechargeWallet(
     rechargeWalletDto: RechargeWalletDto,
   ): Promise<RechargedWalletDto> {
-    const dto =
+    const userWithWallet =
       await this.walletsRepository.updateBalanceByUserCredentials(
         rechargeWalletDto,
       );
 
-    return dto;
+    return WalletMapper.toRegisteredDto(userWithWallet);
   }
 
   async getBalance(

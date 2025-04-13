@@ -1,9 +1,8 @@
-import { RegisterCustomerDto } from '../dtos/register-customer.dto';
 import { RegisteredCustomerDto } from '../dtos/registered-customer.dto';
-import { User } from '../entities/user.entity';
+import type { MongooseUser } from '../../../common/types/mogoose-user.type';
 
 export class UserMapper {
-  static toRegisteredDto(userEntity: User): RegisteredCustomerDto {
+  static toRegisteredDto(userEntity: MongooseUser): RegisteredCustomerDto {
     const dto = new RegisteredCustomerDto();
 
     dto.id = userEntity.id;

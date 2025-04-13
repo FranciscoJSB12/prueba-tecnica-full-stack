@@ -1,4 +1,0 @@
-export const INJECTION_TOKENS = {
-  USERS_REPOSITORY: Symbol('USERS_REPOSITORY'),
-  USERS_SERVICE: Symbol('USERS_SERVICE'),
-} as const;

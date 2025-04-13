@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from '../entities/user.entity';
@@ -12,7 +12,15 @@ export class UsersRepository implements IUsersRepository {
     private readonly userModel: Model<User>,
   ) {}
 
-  async createUser(user: RegisterCustomerDto): Promise<User> {
+  async getUserByDocument(document: string) {
+    const userEntity = await this.userModel.findOne({ document }).exec();
+
+    if (!userEntity) throw new NotFoundException('Account not found');
+
+    return userEntity;
+  }
+
+  async createUser(user: RegisterCustomerDto) {
     const userEntity = new this.userModel({ ...user, wallet: {} });
 
     return userEntity.save();

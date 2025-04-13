@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 import { Wallet } from 'src/modules/wallets/entities/wallet.entity';
+import { Payment } from 'src/modules/payments/entities/payment.entity';
 
 @Schema()
 export class User extends Document {
@@ -25,6 +26,9 @@ export class User extends Document {
 
   @Prop({ type: Wallet, required: true })
   wallet: Wallet;
+
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'PurchaseOrder' }] })
+  PaymentOrders: Payment[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
