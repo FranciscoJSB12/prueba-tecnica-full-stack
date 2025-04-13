@@ -1,9 +1,9 @@
 import { Body, Controller, Get, Inject, Patch, Query } from '@nestjs/common';
 import { IWalletService } from '../interfaces/wallet-service.interface';
-import { INJECTION_TOKENS } from 'src/common/constants/injection-tokens.constant';
 import { RechargeWalletReqDto } from 'src/shared/dtos/wallets/recharge-wallet-req.dto';
 import { WalletBalanceReqDto } from 'src/shared/dtos/wallets/wallet-balance-req.dto';
-import { handleExceptionType } from 'src/common/helpers/handle-exception-type.helper';
+import { runOrCatchError } from 'src/common/helpers/run-or-catch-error.helper';
+import { INJECTION_TOKENS } from 'src/common/constants/injection-tokens.constant';
 
 @Controller('billeteras')
 export class WalletsController {
@@ -14,29 +14,21 @@ export class WalletsController {
 
   @Patch('recarga')
   async rechargeWallet(@Body() rechargeWalletDto: RechargeWalletReqDto) {
-    try {
+    return runOrCatchError(async () => {
       const result =
         await this.walletsService.rechargeWallet(rechargeWalletDto);
 
       return result;
-    } catch (err) {
-      const exception = handleExceptionType(err);
-
-      throw exception;
-    }
+    });
   }
 
   @Get('saldo')
   async getWalletBalance(@Query() walletBalanceReqDto: WalletBalanceReqDto) {
-    try {
+    return runOrCatchError(async () => {
       const result =
         await this.walletsService.getWalletBalance(walletBalanceReqDto);
 
       return result;
-    } catch (err) {
-      const exception = handleExceptionType(err);
-
-      throw exception;
-    }
+    });
   }
 }

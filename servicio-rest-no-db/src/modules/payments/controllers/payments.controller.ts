@@ -3,7 +3,7 @@ import { IPaymentService } from '../interfaces/payment-service.interface';
 import { INJECTION_TOKENS } from 'src/common/constants/injection-tokens.constant';
 import { CreateOrderReqDto } from 'src/shared/dtos/payments/create-order-req.dto';
 import { ConfirmOrderReqDto } from 'src/shared/dtos/payments/confirm-order-req.dto';
-import { handleExceptionType } from 'src/common/helpers/handle-exception-type.helper';
+import { runOrCatchError } from 'src/common/helpers/run-or-catch-error.helper';
 
 @Controller('pagos')
 export class PaymentsController {
@@ -14,15 +14,11 @@ export class PaymentsController {
 
   @Post('nueva-compra')
   async createPaymentOrder(@Body() createOrderDto: CreateOrderReqDto) {
-    try {
+    return runOrCatchError(async () => {
       const result =
         await this.paymentsService.createPaymentOrder(createOrderDto);
       return result;
-    } catch (err) {
-      const exception = handleExceptionType(err);
-
-      throw exception;
-    }
+    });
   }
 
   @Patch(':id/confirmar')
@@ -30,17 +26,12 @@ export class PaymentsController {
     @Param('id') id: string,
     @Body() confirmOrderReqDto: ConfirmOrderReqDto,
   ) {
-    try {
+    return runOrCatchError(async () => {
       const result = await this.paymentsService.confirmPayment(
         id,
         confirmOrderReqDto,
       );
-
       return result;
-    } catch (err) {
-      const exception = handleExceptionType(err);
-
-      throw exception;
-    }
+    });
   }
 }
