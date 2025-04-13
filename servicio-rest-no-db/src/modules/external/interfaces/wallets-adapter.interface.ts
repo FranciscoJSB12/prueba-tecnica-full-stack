@@ -1,14 +1,14 @@
-import type { RechargeWalletDto } from 'src/shared/dtos/wallets/recharge-wallet.dto';
+import type { RechargeWalletReqDto } from 'src/shared/dtos/wallets/recharge-wallet-req.dto';
 import type { WalletBalanceReqDto } from 'src/shared/dtos/wallets/wallet-balance-req.dto';
-import type { WalletBalanceExtRes } from 'src/shared/types/wallets/wallet-balance-ext-res.type';
-import type { WalletRechargeExtRes } from 'src/shared/types/wallets/wallet-recharge-ext-res.type';
+import type { WalletBalanceAxiosRes } from 'src/shared/types/wallets/wallet-balance-axios-res.type';
+import type { WalletRechargeAxiosRes } from 'src/shared/types/wallets/wallet-recharge-axios-res.type';
 
 export interface IWalletAdapter {
   rechargeWallet(
-    rechargeWalletDto: RechargeWalletDto,
-  ): Promise<WalletRechargeExtRes>;
+    rechargeWalletDto: RechargeWalletReqDto,
+  ): Promise<WalletRechargeAxiosRes>;
 
   getBalance(
     walletBalanceReqDto: WalletBalanceReqDto,
-  ): Promise<WalletBalanceExtRes>;
+  ): Promise<WalletBalanceAxiosRes>;
 }

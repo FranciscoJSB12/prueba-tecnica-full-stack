@@ -1,16 +1,11 @@
-import {
-  ConflictException,
-  Inject,
-  Injectable,
-  InternalServerErrorException,
-} from '@nestjs/common';
-import { INJECTION_TOKENS } from 'src/common/constants/injection-tokens.constants';
+import { Inject, Injectable } from '@nestjs/common';
+import { INJECTION_TOKENS } from 'src/common/constants/injection-tokens.constant';
 import { ApiResponse } from 'src/core/responses/api-response.dto';
 import { IUsersAdapter } from 'src/modules/external/interfaces/users-adapter.interface';
-import { RegisterCustomerDto } from 'src/shared/dtos/users/register-customer.dto';
-import { RegisteredCustomerDto } from 'src/shared/dtos/users/registered-customer.dto';
+import { RegisterCustomerReqDto } from 'src/shared/dtos/users/register-customer-req.dto';
+import { RegisterCustomerResDto } from 'src/shared/dtos/users/register-customer-res.dto';
 import { IUsersService } from '../interfaces/users-service.interface';
-import { CheckAxiosError } from 'src/common/utils/check-axios-error.util';
+import { handleErrorStatusCode } from 'src/common/helpers/handle-error-status-code.helper';
 
 @Injectable()
 export class UsersService implements IUsersService {
@@ -20,20 +15,17 @@ export class UsersService implements IUsersService {
   ) {}
 
   async registerCustomer(
-    registerCustomerDto: RegisterCustomerDto,
-  ): Promise<ApiResponse<RegisteredCustomerDto>> {
+    registerCustomerDto: RegisterCustomerReqDto,
+  ): Promise<ApiResponse<RegisterCustomerResDto>> {
     try {
       const { data } =
         await this.usersAdapter.registerCustomer(registerCustomerDto);
 
       return data;
     } catch (err) {
-      const axiosErr = CheckAxiosError(err);
+      const exception = handleErrorStatusCode(err);
 
-      if (!axiosErr || axiosErr.statusCode !== 409)
-        throw new InternalServerErrorException(err.message);
-
-      throw new ConflictException(axiosErr.message);
+      throw exception;
     }
   }
 }

@@ -6,7 +6,7 @@ import {
   MinLength,
 } from 'class-validator';
 
-export class RechargeWalletDto {
+export class RechargeWalletReqDto {
   @IsNumber()
   @Min(1)
   @IsPositive()

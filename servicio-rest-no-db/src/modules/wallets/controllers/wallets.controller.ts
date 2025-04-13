@@ -1,18 +1,9 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Inject,
-  InternalServerErrorException,
-  NotFoundException,
-  Patch,
-  Query,
-} from '@nestjs/common';
+import { Body, Controller, Get, Inject, Patch, Query } from '@nestjs/common';
 import { IWalletService } from '../interfaces/wallet-service.interface';
-import { INJECTION_TOKENS } from 'src/common/constants/injection-tokens.constants';
-import { RechargeWalletDto } from 'src/shared/dtos/wallets/recharge-wallet.dto';
-import { ApiResponse } from 'src/core/responses/api-response.dto';
+import { INJECTION_TOKENS } from 'src/common/constants/injection-tokens.constant';
+import { RechargeWalletReqDto } from 'src/shared/dtos/wallets/recharge-wallet-req.dto';
 import { WalletBalanceReqDto } from 'src/shared/dtos/wallets/wallet-balance-req.dto';
+import { handleExceptionType } from 'src/common/helpers/handle-exception-type.helper';
 
 @Controller('billeteras')
 export class WalletsController {
@@ -22,13 +13,14 @@ export class WalletsController {
   ) {}
 
   @Patch('recarga')
-  async rechargeWallet(@Body() rechargeWalletDto: RechargeWalletDto) {
+  async rechargeWallet(@Body() rechargeWalletDto: RechargeWalletReqDto) {
     try {
-      const dto = await this.walletsService.rechargeWallet(rechargeWalletDto);
+      const result =
+        await this.walletsService.rechargeWallet(rechargeWalletDto);
 
-      return dto;
+      return result;
     } catch (err) {
-      const exception = this.HandleException(err);
+      const exception = handleExceptionType(err);
 
       throw exception;
     }
@@ -37,22 +29,14 @@ export class WalletsController {
   @Get('saldo')
   async getWalletBalance(@Query() walletBalanceReqDto: WalletBalanceReqDto) {
     try {
-      const dto =
+      const result =
         await this.walletsService.getWalletBalance(walletBalanceReqDto);
 
-      return dto;
+      return result;
     } catch (err) {
-      const exception = this.HandleException(err);
+      const exception = handleExceptionType(err);
 
       throw exception;
     }
-  }
-
-  private HandleException(err: any) {
-    if (err instanceof NotFoundException) {
-      return new NotFoundException(ApiResponse.error(err.message));
-    }
-
-    return new InternalServerErrorException(ApiResponse.error(err.message));
   }
 }

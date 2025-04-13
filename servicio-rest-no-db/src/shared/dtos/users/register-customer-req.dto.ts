@@ -1,6 +1,6 @@
 import { IsEmail, IsString, MinLength } from 'class-validator';
 
-export class RegisterCustomerDto {
+export class RegisterCustomerReqDto {
   @IsString()
   @MinLength(1)
   readonly document: string;

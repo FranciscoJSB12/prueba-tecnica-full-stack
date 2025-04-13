@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { WalletsService } from './services/wallets.service';
 import { WalletsController } from './controllers/wallets.controller';
 import { ExternalModule } from '../external/external.module';
-import { INJECTION_TOKENS } from 'src/common/constants/injection-tokens.constants';
+import { INJECTION_TOKENS } from 'src/common/constants/injection-tokens.constant';
 
 @Module({
   controllers: [WalletsController],

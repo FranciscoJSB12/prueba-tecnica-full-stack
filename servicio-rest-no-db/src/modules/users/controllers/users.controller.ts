@@ -1,15 +1,8 @@
-import {
-  Body,
-  ConflictException,
-  Controller,
-  Inject,
-  InternalServerErrorException,
-  Post,
-} from '@nestjs/common';
+import { Body, Controller, Inject, Post } from '@nestjs/common';
 import { IUsersService } from '../interfaces/users-service.interface';
-import { RegisterCustomerDto } from 'src/shared/dtos/users/register-customer.dto';
-import { ApiResponse } from 'src/core/responses/api-response.dto';
-import { INJECTION_TOKENS } from 'src/common/constants/injection-tokens.constants';
+import { RegisterCustomerReqDto } from 'src/shared/dtos/users/register-customer-req.dto';
+import { handleExceptionType } from 'src/common/helpers/handle-exception-type.helper';
+import { INJECTION_TOKENS } from 'src/common/constants/injection-tokens.constant';
 
 @Controller()
 export class UsersController {
@@ -19,20 +12,16 @@ export class UsersController {
   ) {}
 
   @Post('registar-cliente')
-  async registerCustomer(@Body() registerCustomerDto: RegisterCustomerDto) {
+  async registerCustomer(@Body() registerCustomerDto: RegisterCustomerReqDto) {
     try {
-      const resp =
+      const result =
         await this.usersService.registerCustomer(registerCustomerDto);
 
-      return resp;
+      return result;
     } catch (err) {
-      if (err instanceof ConflictException) {
-        throw new ConflictException(ApiResponse.error(err.message));
-      }
+      const exception = handleExceptionType(err);
 
-      throw new InternalServerErrorException(
-        ApiResponse.error(`Error: ${err.message}`),
-      );
+      throw exception;
     }
   }
 }

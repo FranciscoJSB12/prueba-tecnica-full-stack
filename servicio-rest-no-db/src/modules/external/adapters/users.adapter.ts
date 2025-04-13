@@ -4,9 +4,9 @@ import { AxiosError } from 'axios';
 import { catchError, firstValueFrom } from 'rxjs';
 import { envConfig } from 'src/config/env-config';
 import { ApiResponse } from 'src/core/responses/api-response.dto';
-import { RegisterCustomerDto } from 'src/shared/dtos/users/register-customer.dto';
-import { RegisteredCustomerDto } from 'src/shared/dtos/users/registered-customer.dto';
-import { UserExtRes } from 'src/shared/types/users/users-ext-res.type';
+import { RegisterCustomerReqDto } from 'src/shared/dtos/users/register-customer-req.dto';
+import { RegisterCustomerResDto } from 'src/shared/dtos/users/register-customer-res.dto';
+import { RegisterUserAxiosRes } from 'src/shared/types/users/register-user-axios-res.type';
 import { IUsersAdapter } from '../interfaces/users-adapter.interface';
 
 @Injectable()
@@ -18,11 +18,11 @@ export class UsersAdapter implements IUsersAdapter {
   }
 
   registerCustomer(
-    registerCustomerDto: RegisterCustomerDto,
-  ): Promise<UserExtRes> {
+    registerCustomerDto: RegisterCustomerReqDto,
+  ): Promise<RegisterUserAxiosRes> {
     return firstValueFrom(
       this.httpService
-        .post<ApiResponse<RegisteredCustomerDto>>(
+        .post<ApiResponse<RegisterCustomerResDto>>(
           `${this.baseUrl}/registar-cliente`,
           {
             ...registerCustomerDto,

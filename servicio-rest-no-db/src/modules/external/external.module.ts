@@ -2,7 +2,8 @@ import { Module } from '@nestjs/common';
 import { HttpModule } from '@nestjs/axios';
 import { UsersAdapter } from './adapters/users.adapter';
 import { WalletsAdapter } from './adapters/wallets.adapter';
-import { INJECTION_TOKENS } from 'src/common/constants/injection-tokens.constants';
+import { INJECTION_TOKENS } from 'src/common/constants/injection-tokens.constant';
+import { PaymentsAdapter } from './adapters/payments.adapter';
 
 @Module({
   imports: [HttpModule],
@@ -15,6 +16,10 @@ import { INJECTION_TOKENS } from 'src/common/constants/injection-tokens.constant
       provide: INJECTION_TOKENS.WALLETS_ADAPTER,
       useClass: WalletsAdapter,
     },
+    {
+      provide: INJECTION_TOKENS.PAYMENTS_ADAPTER,
+      useClass: PaymentsAdapter,
+    },
   ],
   exports: [
     {
@@ -24,6 +29,10 @@ import { INJECTION_TOKENS } from 'src/common/constants/injection-tokens.constant
     {
       provide: INJECTION_TOKENS.WALLETS_ADAPTER,
       useClass: WalletsAdapter,
+    },
+    {
+      provide: INJECTION_TOKENS.PAYMENTS_ADAPTER,
+      useClass: PaymentsAdapter,
     },
   ],
 })

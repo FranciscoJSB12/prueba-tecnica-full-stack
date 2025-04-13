@@ -1,5 +1,4 @@
-export class RechargedWalletDto {
+export class RechargeWalletResDto {
   newBalance: number;
-
   documentOwner: string;
 }
