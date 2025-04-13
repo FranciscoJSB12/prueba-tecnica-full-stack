@@ -1,5 +1,5 @@
 import { RegisteredCustomerDto } from '../dtos/registered-customer.dto';
-import type { MongooseUser } from '../../../common/types/mogoose-user.type';
+import type { MongooseUser } from '../../../common/types/mongoose-user.type';
 
 export class UserMapper {
   static toRegisteredDto(userEntity: MongooseUser): RegisteredCustomerDto {

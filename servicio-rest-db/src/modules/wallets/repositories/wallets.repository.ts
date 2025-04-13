@@ -1,11 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { ClientSession, Model } from 'mongoose';
 import { User } from 'src/modules/users/entities/user.entity';
 import { RechargeWalletDto } from '../dtos/recharge-wallet.dto';
 import { WalletBalanceReqDto } from '../dtos/wallet-balance-req.dto';
 import { IWalletsRepository } from '../interfaces/wallets-repository.interface';
-import { MongooseUser } from 'src/common/types/mogoose-user.type';
+import { MongooseUser } from 'src/common/types/mongoose-user.type';
 
 @Injectable()
 export class WalletsRepository implements IWalletsRepository {
@@ -30,7 +30,7 @@ export class WalletsRepository implements IWalletsRepository {
       )
       .exec();
 
-    if (!updatedUser) throw new NotFoundException('Account not found');
+    if (!updatedUser) throw new NotFoundException('Cuenta no econtrada');
 
     return updatedUser;
   }
@@ -45,10 +45,29 @@ export class WalletsRepository implements IWalletsRepository {
       })
       .exec();
 
-    if (!user) throw new NotFoundException('Account not found');
+    if (!user) throw new NotFoundException('Cuenta no econtrada');
 
     const currentBalance = user.wallet.balance;
 
     return currentBalance;
+  }
+
+  async updateBalanceByUser(
+    id: string,
+    amount: number,
+    dbSession: ClientSession | null = null,
+  ) {
+    const updatedUser = await this.userModel
+      .findByIdAndUpdate(
+        { _id: id },
+        { $inc: { 'wallet.balance': amount } },
+        { new: true },
+      )
+      .session(dbSession)
+      .exec();
+
+    if (!updatedUser) throw new NotFoundException('Cuenta no econtrada');
+
+    return updatedUser;
   }
 }

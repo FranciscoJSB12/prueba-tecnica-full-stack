@@ -15,7 +15,7 @@ export class UsersRepository implements IUsersRepository {
   async getUserByDocument(document: string) {
     const userEntity = await this.userModel.findOne({ document }).exec();
 
-    if (!userEntity) throw new NotFoundException('Account not found');
+    if (!userEntity) throw new NotFoundException('Cuenta no econtrada');
 
     return userEntity;
   }

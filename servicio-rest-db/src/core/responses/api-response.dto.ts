@@ -19,7 +19,7 @@ export class ApiResponse<T> {
     this.timestamp = new Date().toISOString();
   }
 
-  static success<T>(data: T, message = 'Success'): ApiResponse<T> {
+  static success<T>(data: T, message = 'Solicitud exitosa'): ApiResponse<T> {
     return new ApiResponse<T>({
       success: true,
       message,

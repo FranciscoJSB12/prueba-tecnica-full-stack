@@ -16,14 +16,14 @@ import { RechargedWalletDto } from '../dtos/recharged-wallet.dto';
 import { WalletBalanceReqDto } from '../dtos/wallet-balance-req.dto';
 import { WalletBalanceResDto } from '../dtos/wallet-balance-res.dto';
 
-@Controller('wallets')
+@Controller('billeteras')
 export class WalletsController {
   constructor(
     @Inject(INJECTION_TOKENS.WALLETS_SERVICE)
     private readonly walletsService: IWalletsService,
   ) {}
 
-  @Patch('recharge')
+  @Patch('recarga')
   async rechargeWallet(@Body() rechargeWalletDto: RechargeWalletDto) {
     try {
       const dto = await this.walletsService.rechargeWallet(rechargeWalletDto);
@@ -36,7 +36,7 @@ export class WalletsController {
     }
   }
 
-  @Get('balance')
+  @Get('saldo')
   async getWalletBalance(@Query() walletBalanceReqDto: WalletBalanceReqDto) {
     try {
       const dto = await this.walletsService.getBalance(walletBalanceReqDto);

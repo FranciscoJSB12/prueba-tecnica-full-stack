@@ -1,6 +1,7 @@
-import { MongooseUser } from 'src/common/types/mogoose-user.type';
+import type { ClientSession } from 'mongoose';
+import type { MongooseUser } from 'src/common/types/mongoose-user.type';
 import type { RechargeWalletDto } from '../dtos/recharge-wallet.dto';
-import { WalletBalanceReqDto } from '../dtos/wallet-balance-req.dto';
+import type { WalletBalanceReqDto } from '../dtos/wallet-balance-req.dto';
 
 export interface IWalletsRepository {
   updateBalanceByUserCredentials(
@@ -10,4 +11,10 @@ export interface IWalletsRepository {
   getBalanceByUserCredentials(
     walletBalanceReqDto: WalletBalanceReqDto,
   ): Promise<number>;
+
+  updateBalanceByUser(
+    id: string,
+    amount: number,
+    dbSession: ClientSession | null,
+  ): Promise<MongooseUser>;
 }

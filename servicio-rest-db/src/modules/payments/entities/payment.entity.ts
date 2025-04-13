@@ -18,21 +18,26 @@ export class Payment extends Document {
   })
   token: string;
 
+  @Prop({
+    required: true,
+    default: Date.now,
+  })
+  tokenCreatedAt: Date;
+
   @Prop({ required: true, default: () => new Date(Date.now() + 5 * 60 * 1000) }) // 5 minutos para que expire
   tokenExpirationDate: Date;
 
   @Prop({ required: true, default: false })
   isConfirmed: boolean;
 
+  @Prop()
+  confirmedAt: Date;
+
   @Prop({ required: true })
   amount: number;
 
   @Prop({ type: Types.ObjectId, ref: 'User', required: true })
-  user: User;
-
-  isTokenExpired(): boolean {
-    return this.tokenExpirationDate < new Date();
-  }
+  userId: string;
 }
 
 export const PaymentSchema = SchemaFactory.createForClass(Payment);

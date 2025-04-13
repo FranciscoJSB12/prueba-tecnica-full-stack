@@ -18,5 +18,11 @@ import { WalletsRepository } from './repositories/wallets.repository';
       useClass: WalletsRepository,
     },
   ],
+  exports: [
+    {
+      provide: INJECTION_TOKENS.WALLETS_REPOSITORY,
+      useClass: WalletsRepository,
+    },
+  ],
 })
 export class WalletsModule {}

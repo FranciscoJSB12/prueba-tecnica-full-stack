@@ -1,4 +1,4 @@
-import { MongooseUser } from 'src/common/types/mogoose-user.type';
+import { MongooseUser } from 'src/common/types/mongoose-user.type';
 import { RechargedWalletDto } from '../dtos/recharged-wallet.dto';
 import { WalletBalanceResDto } from '../dtos/wallet-balance-res.dto';
 

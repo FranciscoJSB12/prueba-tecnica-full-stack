@@ -1,7 +1,7 @@
 import { SavePaymentOrderDto } from '../dtos/save-payment-order.dto';
 import { generateSixDigitToken } from '../utils/generate-six-digits-token.util';
 import { generatSessionId } from '../utils/generate-session-id.util';
-import type { MongooseUser } from 'src/common/types/mogoose-user.type';
+import type { MongooseUser } from 'src/common/types/mongoose-user.type';
 import type { CreateOrderReqDto } from '../dtos/create-order-req.dto';
 import { CreateOrderResDto } from '../dtos/create-order-res.dto';
 
@@ -25,7 +25,6 @@ export class PaymentsMapper {
     const dto = new CreateOrderResDto();
 
     dto.sessionId = savePaymentOrderDto.sessionId;
-    dto.token = savePaymentOrderDto.token;
 
     return dto;
   }

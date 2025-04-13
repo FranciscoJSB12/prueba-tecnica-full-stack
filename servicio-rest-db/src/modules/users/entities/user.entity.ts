@@ -26,9 +26,6 @@ export class User extends Document {
 
   @Prop({ type: Wallet, required: true })
   wallet: Wallet;
-
-  @Prop({ type: [{ type: Types.ObjectId, ref: 'PurchaseOrder' }] })
-  PaymentOrders: Payment[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

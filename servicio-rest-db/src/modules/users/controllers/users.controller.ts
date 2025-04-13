@@ -27,12 +27,14 @@ export class UsersController {
 
       return ApiResponse.success<RegisteredCustomerDto>(
         respDto,
-        'User registered successfully',
+        'Registro exitoso',
       );
     } catch (err) {
       if (err.errorResponse?.code === 11000) {
         throw new ConflictException(
-          ApiResponse.error(`Error: Duplicated Element`),
+          ApiResponse.error(
+            `Algunos de los datos ya están asociados a un cliente`,
+          ),
         );
       }
 

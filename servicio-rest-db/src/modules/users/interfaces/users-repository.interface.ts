@@ -1,4 +1,4 @@
-import type { MongooseUser } from '../../../common/types/mogoose-user.type';
+import type { MongooseUser } from '../../../common/types/mongoose-user.type';
 import type { RegisterCustomerDto } from '../dtos/register-customer.dto';
 
 export interface IUsersRepository {

@@ -7,6 +7,7 @@ import { PaymentsRepository } from './repositories/payment.repository';
 import { INJECTION_TOKENS } from 'src/common/constants/injection-tokens.constant';
 import { UsersModule } from '../users/users.module';
 import { ExternalModule } from '../external/external.module';
+import { WalletsModule } from '../wallets/wallets.module';
 
 @Module({
   controllers: [PaymentsController],
@@ -28,6 +29,7 @@ import { ExternalModule } from '../external/external.module';
       },
     ]),
     UsersModule,
+    WalletsModule,
     ExternalModule,
   ],
 })
