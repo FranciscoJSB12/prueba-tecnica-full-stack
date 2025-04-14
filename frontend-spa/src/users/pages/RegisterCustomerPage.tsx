@@ -8,7 +8,7 @@ import { registerCustomer } from "../services/usersService";
 import { LoadingModal } from "../../ui/components/LoadingModal/LoadingModal";
 import { ErrorModal } from "../../ui/components/ErrorModal/ErrorModal";
 import { SuccessModal } from "../../ui/components/SuccesModal /SuccessModal";
-import { useHttpReq } from "../../ui/hooks/useHttpReq";
+import { useMutationReq } from "../../ui/hooks/useMutationReq";
 import { useEffect } from "react";
 
 type FieldType = {
@@ -20,18 +20,18 @@ type FieldType = {
 };
 
 export const RegisterCustomerPage = () => {
+  const [form] = Form.useForm();
   const {
     isLoading,
     openErrorModal,
     openSuccessModal,
     toggleOpenErrorModal,
-    toggleOpenSuccesModal,
+    toggleOpenSuccessModal,
     error,
     data,
     mutate,
     isSuccess,
-  } = useHttpReq(useMutation(registerCustomer));
-  const [form] = Form.useForm();
+  } = useMutationReq(useMutation(registerCustomer));
 
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
     mutate(values);
@@ -58,7 +58,7 @@ export const RegisterCustomerPage = () => {
       <SuccessModal
         open={openSuccessModal}
         message={data ? data.message : "Exitoso"}
-        onClose={toggleOpenSuccesModal}
+        onClose={toggleOpenSuccessModal}
       />
       <CustomCard
         title="Registrar cliente"

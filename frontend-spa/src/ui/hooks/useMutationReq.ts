@@ -1,31 +1,26 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { UseMutationResult } from "react-query";
+import { useHandleErrorModal } from "./useHandleErrorModal";
+import { useHandleSuccessModal } from "./useHandleSuccesModal";
 
-export const useHttpReq = (
+export const useMutationReq = (
   useMutationResult: UseMutationResult<any, unknown, any, unknown>
 ) => {
-  const [openErrorModal, setOpenErrorModal] = useState(false);
-  const [openSuccessModal, setOpenSuccesModal] = useState(false);
+  const { openErrorModal, toggleOpenErrorModal } = useHandleErrorModal();
+  const { openSuccessModal, toggleOpenSuccessModal } = useHandleSuccessModal();
+
   const { isError, isLoading, error, isSuccess, data, mutate } =
     useMutationResult;
 
-  const toggleOpenErrorModal = (value: boolean) => {
-    setOpenErrorModal(value);
-  };
-
-  const toggleOpenSuccesModal = (value: boolean) => {
-    setOpenSuccesModal(value);
-  };
-
   useEffect(() => {
     if (isError && !isLoading) {
-      setOpenErrorModal(true);
+      toggleOpenErrorModal(true);
     }
   }, [isError, isLoading]);
 
   useEffect(() => {
     if (isSuccess) {
-      setOpenSuccesModal(true);
+      toggleOpenSuccessModal(true);
     }
   }, [isSuccess]);
 
@@ -35,7 +30,7 @@ export const useHttpReq = (
     openErrorModal,
     openSuccessModal,
     toggleOpenErrorModal,
-    toggleOpenSuccesModal,
+    toggleOpenSuccessModal,
     error,
     data,
     mutate,

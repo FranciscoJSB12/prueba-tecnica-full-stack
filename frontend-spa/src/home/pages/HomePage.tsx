@@ -21,7 +21,7 @@ const menuOptions = [
     text: "Billeteras",
     actions: [
       { text: "Recargar", link: "billeteras/recargas" },
-      { text: "Consultar saldo", link: "registrar-cliente" },
+      { text: "Consultar saldo", link: "billeteras/saldo" },
     ],
   },
   {

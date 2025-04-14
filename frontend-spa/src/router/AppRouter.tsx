@@ -4,6 +4,7 @@ import { RegisterCustomerPage } from "../users/pages/RegisterCustomerPage";
 import { MainLayout } from "../ui/layouts/MainLayout/MainLayout";
 import { NavBar } from "../ui/components/Navbar/Navbar";
 import { RechargeWalletPage } from "../wallets/pages/RechargeWalletPage";
+import { GetWalletBalancePage } from "../wallets/pages/GetWalletBalancePage";
 
 export const AppRouter = () => {
   return (
@@ -14,6 +15,7 @@ export const AppRouter = () => {
           <Route path="/" element={<HomePage />} />
           <Route path="/registrar-cliente" element={<RegisterCustomerPage />} />
           <Route path="/billeteras/recargas" element={<RechargeWalletPage />} />
+          <Route path="/billeteras/saldo" element={<GetWalletBalancePage />} />
 
           <Route path="/*" element={<Navigate to="/" />} />
         </Routes>

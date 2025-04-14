@@ -33,7 +33,7 @@ const items: MenuItem[] = [
         key: "wallets:1",
       },
       {
-        label: <Link to="/registrar-cliente">Consultar Saldo</Link>,
+        label: <Link to="/billeteras/saldo">Consultar Saldo</Link>,
         key: "wallets:2",
       },
     ],
