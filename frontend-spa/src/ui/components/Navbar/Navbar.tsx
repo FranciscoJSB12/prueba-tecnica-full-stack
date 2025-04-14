@@ -29,7 +29,7 @@ const items: MenuItem[] = [
     icon: <WalletOutlined />,
     children: [
       {
-        label: <Link to="/registrar-cliente">Recargar</Link>,
+        label: <Link to="/billeteras/recargas">Recargar</Link>,
         key: "wallets:1",
       },
       {

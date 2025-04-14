@@ -20,7 +20,7 @@ const menuOptions = [
     icon: <WalletOutlined className="text-primary" />,
     text: "Billeteras",
     actions: [
-      { text: "Registar", link: "registrar-cliente" },
+      { text: "Recargar", link: "billeteras/recargas" },
       { text: "Consultar saldo", link: "registrar-cliente" },
     ],
   },
