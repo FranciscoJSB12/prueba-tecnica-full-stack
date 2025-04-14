@@ -44,11 +44,11 @@ const items: MenuItem[] = [
     icon: <CreditCardOutlined />,
     children: [
       {
-        label: <Link to="/registrar-cliente">Comprar</Link>,
+        label: <Link to="/pagos/nueva-compra">Comprar</Link>,
         key: "payments:1",
       },
       {
-        label: <Link to="/registrar-cliente">Confirmar pago</Link>,
+        label: <Link to="/pagos/confirmar">Confirmar pago</Link>,
         key: "payments:2",
       },
     ],

@@ -28,8 +28,8 @@ const menuOptions = [
     icon: <CreditCardOutlined className="text-primary" />,
     text: "Compras",
     actions: [
-      { text: "Comprar", link: "registrar-cliente" },
-      { text: "Confirmar Pago", link: "registrar-cliente" },
+      { text: "Comprar", link: "pagos/nueva-compra" },
+      { text: "Confirmar Pago", link: "pagos/confirmar" },
     ],
   },
 ];

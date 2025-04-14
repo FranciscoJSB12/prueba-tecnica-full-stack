@@ -1,51 +1,56 @@
-import { useEffect } from "react";
 import { Button, Form, Input } from "antd";
 import type { FormProps } from "antd";
-import { AxiosError } from "axios";
-import { useMutation } from "react-query";
-import { WalletOutlined } from "@ant-design/icons";
+import { CreditCardOutlined } from "@ant-design/icons";
 import { CustomCard } from "../../ui/components/CustomCard/Card";
+import { useEffect, useState } from "react";
+import { getSessionId } from "../helpers/getSessionId";
+import { useNavigate } from "react-router-dom";
 import { useMutationReq } from "../../ui/hooks/useMutationReq";
-import { rechargeWallet } from "../services/walletsServices";
+import { useMutation } from "react-query";
+import { confirmPaymentOrder } from "../services/paymentsServices";
 import { ErrorModal } from "../../ui/components/ErrorModal/ErrorModal";
 import { LoadingModal } from "../../ui/components/LoadingModal/LoadingModal";
 import { SuccessModal } from "../../ui/components/SuccesModal /SuccessModal";
-import { RechargeWalletReqDto } from "../dtos/rechargeWalletReqDto";
+import { AxiosError } from "axios";
+import { ConfirmPaymentOrderReqDto } from "../dtos/confirmPaymentOrderReqDto";
+import { localStorageKeys } from "../constants/localStorageKeys";
 
 type FieldType = {
-  amount: string;
-  document: string;
-  cellphone: string;
+  confirmationToken: string;
 };
 
-export const RechargeWalletPage = () => {
+export const ConfirmPaymentPage = () => {
+  const navigate = useNavigate();
+  const [sessionId] = useState(getSessionId);
   const [form] = Form.useForm();
   const {
     isLoading,
     openErrorModal,
     openSuccessModal,
-    toggleOpenErrorModal,
     toggleOpenSuccessModal,
+    toggleOpenErrorModal,
     error,
     data,
     mutate,
-    isSuccess,
-  } = useMutationReq(useMutation(rechargeWallet));
+  } = useMutationReq(useMutation(confirmPaymentOrder));
 
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
-    const data: RechargeWalletReqDto = {
-      amount: +values.amount,
-      document: values.document,
-      cellphone: values.cellphone,
+    const data: ConfirmPaymentOrderReqDto = {
+      sessionId: sessionId,
+      confirmationToken: values.confirmationToken,
     };
     mutate(data);
   };
 
+  const onClosePaymentSession = (open: boolean) => {
+    toggleOpenSuccessModal(open);
+    localStorage.removeItem(localStorageKeys.SESSION_ID);
+    navigate("/");
+  };
+
   useEffect(() => {
-    if (isSuccess) {
-      form.resetFields();
-    }
-  }, [isSuccess]);
+    if (!sessionId) navigate("/");
+  }, [sessionId]);
 
   return (
     <>
@@ -61,16 +66,12 @@ export const RechargeWalletPage = () => {
       <LoadingModal isLoading={isLoading} message="Cargando..." />
       <SuccessModal
         open={openSuccessModal}
-        message={
-          data
-            ? `Recarga exitosa. Nuevo balance: ${data.data.newBalance} $`
-            : "Exitoso"
-        }
-        onClose={toggleOpenSuccessModal}
+        message={data ? `${data.message}` : "Exitoso"}
+        onClose={onClosePaymentSession}
       />
       <CustomCard
-        title="Recargar billetera"
-        icon={<WalletOutlined className="text-primary" />}
+        title="Ingresa el token enviado a tu correo"
+        icon={<CreditCardOutlined className="text-primary" />}
       >
         <Form
           form={form}
@@ -83,37 +84,20 @@ export const RechargeWalletPage = () => {
           autoComplete="off"
         >
           <Form.Item<FieldType>
-            label="Cantidad a recargar"
-            name="amount"
+            label="Token 6 dígitos"
+            name="confirmationToken"
             rules={[
               {
                 required: true,
-                message: "Cantidad a recarga es requerida.",
+                message: "Token es requerido.",
               },
             ]}
           >
-            <Input type="number" min={1} step="0.01" />
+            <Input type="number" min={1} step="1" />
           </Form.Item>
-
-          <Form.Item<FieldType>
-            label="Documento"
-            name="document"
-            rules={[{ required: true, message: "Documento es requerido." }]}
-          >
-            <Input />
-          </Form.Item>
-
-          <Form.Item<FieldType>
-            label="Celular"
-            name="cellphone"
-            rules={[{ required: true, message: "Celular es requerido." }]}
-          >
-            <Input />
-          </Form.Item>
-
           <Form.Item label={null}>
             <Button type="primary" htmlType="submit">
-              Recargar
+              Confirmar
             </Button>
           </Form.Item>
         </Form>

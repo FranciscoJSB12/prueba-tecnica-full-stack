@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import { Button, Form, Input } from "antd";
 import { AxiosError } from "axios";
 import type { FormProps } from "antd";
@@ -19,6 +19,7 @@ type FieldType = {
 };
 
 export const GetWalletBalancePage = () => {
+  const queryClient = useQueryClient();
   const { openErrorModal, toggleOpenErrorModal } = useHandleErrorModal();
   const { openSuccessModal, toggleOpenSuccessModal } = useHandleSuccessModal();
   const [form] = Form.useForm();
@@ -28,13 +29,21 @@ export const GetWalletBalancePage = () => {
     () => getBalance(form.getFieldsValue() as GetBalanceReqDto),
     {
       enabled: false, // Disabilitar fecth automatico
-      retry: true, // Habilitar politica de reintento
+      retry: false, // Habilitar politica de reintento
+      cacheTime: 0,
+      staleTime: 0,
     }
   );
 
   const onFinish: FormProps<FieldType>["onFinish"] = () => {
     refetch();
   };
+
+  useEffect(() => {
+    return () => {
+      queryClient.removeQueries(["walletBalanceData"]);
+    };
+  }, [queryClient]);
 
   useEffect(() => {
     if (!isLoading && isError) {
@@ -100,7 +109,7 @@ export const GetWalletBalancePage = () => {
 
           <Form.Item label={null}>
             <Button type="primary" htmlType="submit">
-              Registar
+              Consultar
             </Button>
           </Form.Item>
         </Form>

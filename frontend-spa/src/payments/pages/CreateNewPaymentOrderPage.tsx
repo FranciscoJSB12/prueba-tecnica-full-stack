@@ -1,42 +1,40 @@
 import { useEffect } from "react";
+import { AxiosError } from "axios";
 import { Button, Form, Input } from "antd";
 import type { FormProps } from "antd";
-import { AxiosError } from "axios";
-import { useMutation } from "react-query";
-import { WalletOutlined } from "@ant-design/icons";
+import { CreditCardOutlined } from "@ant-design/icons";
 import { CustomCard } from "../../ui/components/CustomCard/Card";
 import { useMutationReq } from "../../ui/hooks/useMutationReq";
-import { rechargeWallet } from "../services/walletsServices";
+import { useMutation } from "react-query";
+import { createNewPaymentOrder } from "../services/paymentsServices";
 import { ErrorModal } from "../../ui/components/ErrorModal/ErrorModal";
 import { LoadingModal } from "../../ui/components/LoadingModal/LoadingModal";
-import { SuccessModal } from "../../ui/components/SuccesModal /SuccessModal";
-import { RechargeWalletReqDto } from "../dtos/rechargeWalletReqDto";
+import { CreatePaymentOrderReqDto } from "../dtos/createPaymentOrderReqDto";
+import { useNavigate } from "react-router-dom";
+import { localStorageKeys } from "../constants/localStorageKeys";
 
 type FieldType = {
   amount: string;
   document: string;
-  cellphone: string;
 };
 
-export const RechargeWalletPage = () => {
+export const CreateNewPaymentOrderPage = () => {
   const [form] = Form.useForm();
   const {
     isLoading,
     openErrorModal,
-    openSuccessModal,
     toggleOpenErrorModal,
-    toggleOpenSuccessModal,
     error,
     data,
     mutate,
     isSuccess,
-  } = useMutationReq(useMutation(rechargeWallet));
+  } = useMutationReq(useMutation(createNewPaymentOrder));
+  const navigate = useNavigate();
 
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
-    const data: RechargeWalletReqDto = {
+    const data: CreatePaymentOrderReqDto = {
       amount: +values.amount,
       document: values.document,
-      cellphone: values.cellphone,
     };
     mutate(data);
   };
@@ -44,8 +42,15 @@ export const RechargeWalletPage = () => {
   useEffect(() => {
     if (isSuccess) {
       form.resetFields();
+      navigate("/pagos/confirmar");
     }
   }, [isSuccess]);
+
+  useEffect(() => {
+    if (data) {
+      localStorage.setItem(localStorageKeys.SESSION_ID, data.data.sessionId);
+    }
+  }, [data]);
 
   return (
     <>
@@ -59,18 +64,9 @@ export const RechargeWalletPage = () => {
         onClose={toggleOpenErrorModal}
       />
       <LoadingModal isLoading={isLoading} message="Cargando..." />
-      <SuccessModal
-        open={openSuccessModal}
-        message={
-          data
-            ? `Recarga exitosa. Nuevo balance: ${data.data.newBalance} $`
-            : "Exitoso"
-        }
-        onClose={toggleOpenSuccessModal}
-      />
       <CustomCard
-        title="Recargar billetera"
-        icon={<WalletOutlined className="text-primary" />}
+        title="Comprar"
+        icon={<CreditCardOutlined className="text-primary" />}
       >
         <Form
           form={form}
@@ -83,12 +79,12 @@ export const RechargeWalletPage = () => {
           autoComplete="off"
         >
           <Form.Item<FieldType>
-            label="Cantidad a recargar"
+            label="Cantidad a pagar"
             name="amount"
             rules={[
               {
                 required: true,
-                message: "Cantidad a recarga es requerida.",
+                message: "Cantidad a pagar es requerida.",
               },
             ]}
           >
@@ -103,17 +99,9 @@ export const RechargeWalletPage = () => {
             <Input />
           </Form.Item>
 
-          <Form.Item<FieldType>
-            label="Celular"
-            name="cellphone"
-            rules={[{ required: true, message: "Celular es requerido." }]}
-          >
-            <Input />
-          </Form.Item>
-
           <Form.Item label={null}>
             <Button type="primary" htmlType="submit">
-              Recargar
+              Solicitar pago
             </Button>
           </Form.Item>
         </Form>
