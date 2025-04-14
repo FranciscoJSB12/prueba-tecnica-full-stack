@@ -1,5 +1,4 @@
-import { useEffect } from "react";
-import { useQuery, useQueryClient } from "react-query";
+import { useState } from "react";
 import { Button, Form, Input } from "antd";
 import { AxiosError } from "axios";
 import type { FormProps } from "antd";
@@ -19,62 +18,51 @@ type FieldType = {
 };
 
 export const GetWalletBalancePage = () => {
-  const queryClient = useQueryClient();
+  const [isLoading, setIsLoading] = useState(false);
+  const [successMesage, setSuccessMessage] = useState("");
+  const [error, setError] = useState("");
   const { openErrorModal, toggleOpenErrorModal } = useHandleErrorModal();
   const { openSuccessModal, toggleOpenSuccessModal } = useHandleSuccessModal();
   const [form] = Form.useForm();
 
-  const { data, error, isError, isLoading, isSuccess, refetch } = useQuery(
-    ["walletBalanceData"],
-    () => getBalance(form.getFieldsValue() as GetBalanceReqDto),
-    {
-      enabled: false, // Disabilitar fecth automatico
-      retry: false, // Habilitar politica de reintento
-      cacheTime: 0,
-      staleTime: 0,
+  const getWalletBalance = async (reqDto: GetBalanceReqDto) => {
+    setIsLoading(true);
+    try {
+      const resp = await getBalance(reqDto);
+      setSuccessMessage(`Saldo dispoble: ${resp.data.currentBalance} $`);
+      toggleOpenSuccessModal(true);
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        setError(err.response?.data.message || "Error inesperado");
+      } else {
+        setError((err as any).message);
+      }
+      toggleOpenErrorModal(true);
+    } finally {
+      setIsLoading(false);
     }
-  );
-
-  const onFinish: FormProps<FieldType>["onFinish"] = () => {
-    refetch();
   };
 
-  useEffect(() => {
-    return () => {
-      queryClient.removeQueries(["walletBalanceData"]);
-    };
-  }, [queryClient]);
+  const onFinish: FormProps<FieldType>["onFinish"] = async (values) => {
+    await getWalletBalance({
+      cellphone: values.cellphone,
+      document: values.document,
+    });
 
-  useEffect(() => {
-    if (!isLoading && isError) {
-      toggleOpenErrorModal(true);
-    }
-  }, [isLoading, isError]);
-
-  useEffect(() => {
-    if (isSuccess) {
-      toggleOpenSuccessModal(true);
-      form.resetFields();
-    }
-  }, [isSuccess]);
+    form.resetFields();
+  };
 
   return (
     <>
       <ErrorModal
-        message={
-          error instanceof AxiosError
-            ? error.response?.data.message
-            : "Error inesperado"
-        }
+        message={error}
         open={openErrorModal}
         onClose={toggleOpenErrorModal}
       />
       <LoadingModal isLoading={isLoading} message="Cargando..." />
       <SuccessModal
         open={openSuccessModal}
-        message={
-          data ? `Saldo dispoble: ${data.data.currentBalance} $` : "Exitoso"
-        }
+        message={successMesage}
         onClose={toggleOpenSuccessModal}
       />
       <CustomCard

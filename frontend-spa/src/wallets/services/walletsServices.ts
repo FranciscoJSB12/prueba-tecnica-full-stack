@@ -11,8 +11,11 @@ export const rechargeWallet = async (reqDto: RechargeWalletReqDto) => {
 };
 
 export const getBalance = async (reqDto: GetBalanceReqDto) => {
-  const response = await axios.get(
-    `${baseUrl}/billeteras/saldo?document=${reqDto.document}&cellphone=${reqDto.cellphone}`
-  );
+  const response = await axios.get(`${baseUrl}/billeteras/saldo`, {
+    params: {
+      cellphone: reqDto.cellphone,
+      document: reqDto.document,
+    },
+  });
   return response.data;
 };
