@@ -18,6 +18,6 @@ export class RegisterCustomerDto {
   readonly cellphone: string;
 
   @IsString()
-  @IsEmail()
+  @IsEmail({}, { message: 'Formato de correo no correcto' })
   readonly email: string;
 }
