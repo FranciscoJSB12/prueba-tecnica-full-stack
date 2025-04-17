@@ -10,7 +10,7 @@ import { useMutation } from "react-query";
 import { confirmPaymentOrder } from "../services/paymentsServices";
 import { ErrorModal } from "../../ui/components/ErrorModal/ErrorModal";
 import { LoadingModal } from "../../ui/components/LoadingModal/LoadingModal";
-import { SuccessModal } from "../../ui/components/SuccesModal /SuccessModal";
+import { SuccessModal } from "../../ui/components/SuccesModal/SuccessModal";
 import { AxiosError } from "axios";
 import { ConfirmPaymentOrderReqDto } from "../dtos/confirmPaymentOrderReqDto";
 import { localStorageKeys } from "../constants/localStorageKeys";

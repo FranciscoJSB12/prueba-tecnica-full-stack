@@ -7,7 +7,7 @@ import { CustomCard } from "../../ui/components/CustomCard/Card";
 import { registerCustomer } from "../services/usersService";
 import { LoadingModal } from "../../ui/components/LoadingModal/LoadingModal";
 import { ErrorModal } from "../../ui/components/ErrorModal/ErrorModal";
-import { SuccessModal } from "../../ui/components/SuccesModal /SuccessModal";
+import { SuccessModal } from "../../ui/components/SuccesModal/SuccessModal";
 import { useMutationReq } from "../../ui/hooks/useMutationReq";
 import { useEffect } from "react";
 

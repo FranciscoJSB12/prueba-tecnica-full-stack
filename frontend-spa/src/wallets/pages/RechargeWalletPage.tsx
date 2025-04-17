@@ -9,7 +9,7 @@ import { useMutationReq } from "../../ui/hooks/useMutationReq";
 import { rechargeWallet } from "../services/walletsServices";
 import { ErrorModal } from "../../ui/components/ErrorModal/ErrorModal";
 import { LoadingModal } from "../../ui/components/LoadingModal/LoadingModal";
-import { SuccessModal } from "../../ui/components/SuccesModal /SuccessModal";
+import { SuccessModal } from "../../ui/components/SuccesModal/SuccessModal";
 import { RechargeWalletReqDto } from "../dtos/rechargeWalletReqDto";
 
 type FieldType = {

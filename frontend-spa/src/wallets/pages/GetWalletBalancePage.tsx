@@ -10,7 +10,7 @@ import { useHandleErrorModal } from "../../ui/hooks/useHandleErrorModal";
 import { useHandleSuccessModal } from "../../ui/hooks/useHandleSuccesModal";
 import { ErrorModal } from "../../ui/components/ErrorModal/ErrorModal";
 import { LoadingModal } from "../../ui/components/LoadingModal/LoadingModal";
-import { SuccessModal } from "../../ui/components/SuccesModal /SuccessModal";
+import { SuccessModal } from "../../ui/components/SuccesModal/SuccessModal";
 
 type FieldType = {
   document: string;
